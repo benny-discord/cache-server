@@ -1,8 +1,15 @@
-FROM golang:1.15
-WORKDIR /app
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+FROM golang:1.12-alpine AS build
+WORKDIR /tmp/app
+
 COPY . .
+RUN apk add --no-cache git && go mod download
+
+
 RUN go build -o main ./...
+
+FROM alpine:latest
+WORKDIR /app
+
+COPY --from=build /tmp/app/main /app/main
+
 ENTRYPOINT ["/app/main"]
