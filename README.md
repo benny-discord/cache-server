@@ -1,26 +1,23 @@
 # cache-server
+
 A lightweight cross-process in-memory cache written in go.
 
 ## Running the Server
+
 ### With Docker
+
 Premade Docker builds: https://hub.docker.com/repository/docker/alex31r/cache/builds
+
 ```shell
-git clone https://github.com/benny-discord/cache-server
-docker build - < Dockerfile
+$ docker run --name YOUR_CONTAINER_NAME -p YOUR_DESIRED_PORT:7000 alex31r/cache:latest 
 ```
-Or on Windows...
-```shell
-git clone https://github.com/benny-discord/cache-server -t cache-server
-Get-Content Dockerfile | docker build -
-```
-You can then use the following command to run the server
-```shell
-docker run -it -p YOUR_DESIRED_PORT:7000 cache-server
-```
+
 ### Without Docker
+
 Requires Go v1.15+
 
 From the CLI
+
 ```shell
 git clone https://github.com/benny-discord/cache-server
 go build
@@ -28,6 +25,7 @@ main.exe -p YOUR_DESIRED_PORT
 ```
 
 From the ZIP:
+
 - Download and extract https://github.com/benny-discord/cache-server/archive/master.zip
 - Enter the folder
 - Run `go build`
