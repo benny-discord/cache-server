@@ -11,4 +11,6 @@ WORKDIR /app
 
 COPY --from=build /tmp/app/main /app/main
 
+EXPOSE 7000
+
 ENTRYPOINT ["/app/main"]
