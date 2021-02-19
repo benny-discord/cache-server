@@ -18,8 +18,16 @@ docker run -it -p YOUR_DESIRED_PORT:7000 cache-server
 ```
 ### Without Docker
 Requires Go v1.15+
+
+From the CLI
 ```shell
 git clone https://github.com/benny-discord/cache-server
 go build
 main.exe -p YOUR_DESIRED_PORT
 ```
+
+From the ZIP:
+- Download and extract https://github.com/benny-discord/cache-server/archive/master.zip
+- Enter the folder
+- Run `go build`
+- Run `main.exe`
