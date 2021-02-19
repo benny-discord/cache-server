@@ -5,10 +5,10 @@ import (
 )
 
 var cache = make(map[string]cacheValue)
-var validMethods = [4]string{"GET", "SET", "CLEAR", "DELETE"}
+var validOps = [4]string{"GET", "SET", "CLEAR", "DELETE"}
 
-func isValidMethod(method string) bool {
-	for _, value := range validMethods {
+func isValidOp(method string) bool {
+	for _, value := range validOps {
 		if value == method {
 			return true
 		}
@@ -18,7 +18,7 @@ func isValidMethod(method string) bool {
 
 func setCache(key string, data string, expires int64) string {
 	if expires == 0 {
-		expires = time.Now().Unix() * 1000 + 180000
+		expires = time.Now().Unix()*1000 + 180000
 	}
 	value := cacheValue{
 		data:    data,

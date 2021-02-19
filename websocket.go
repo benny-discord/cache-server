@@ -54,38 +54,38 @@ func reader(conn *websocket.Conn) {
 			break
 		}
 
-		if len(v.Method) == 0 || !isValidMethod(v.Method) {
-			sendMessage(conn, messageType, "{\"type\": \"warn\", \"message\": \"Warning: valid method property must be present in JSON payloads\"}")
+		if len(v.Op) == 0 || !isValidOp(v.Op) {
+			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: valid op property must be present in JSON payloads\"}")
 		}
 
-		if v.Method != "SET" && v.Expires != 0 {
-			sendMessage(conn, messageType, "{\"type\": \"warn\", \"message\": \"Warning: expires property should not be present when method is "+v.Method+"\"}")
+		if v.Op != "SET" && v.Expires != 0 {
+			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: expires property should not be present when op is "+v.Op+"\"}")
 			v.Expires = 0
 		}
-		if v.Method != "SET" && len(v.Value) != 0 {
-			sendMessage(conn, messageType, "{\"type\": \"warn\", \"message\": \"Warning: value property should not be present when method is "+v.Method+"\"}")
+		if v.Op != "SET" && len(v.Value) != 0 {
+			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: value property should not be present when op is "+v.Op+"\"}")
 			v.Value = ""
 		}
-		if v.Method != "CLEAR" && len(v.Key) == 0 {
-			sendMessage(conn, messageType, "{\"type\": \"error\", \"message\": \"Warning: key property must be present when method is "+v.Method+"\"}")
+		if v.Op != "CLEAR" && len(v.Key) == 0 {
+			sendMessage(conn, messageType, "{\"op\": \"ERROR\", \"message\": \"Warning: key property must be present when op is "+v.Op+"\"}")
 			continue
 		}
 
-		if v.Method == "SET" {
+		if v.Op == "SET" {
 			if len(v.Value) == 0 {
-				sendMessage(conn, messageType, "{\"type\": \"error\", \"message\": \"Warning: value property must be present when method is "+v.Method+"\"}")
+				sendMessage(conn, messageType, "{\"op\": \"ERROR\", \"message\": \"Warning: value property must be present when op is "+v.Op+"\"}")
 				continue
 			}
 
-			if v.Expires > 0 && v.Expires < time.Now().Unix() * 1000 {
-				sendMessage(conn, messageType, "{\"type\": \"warn\", \"message\": \"Warning: expires property should be greater than current time\"}")
+			if v.Expires > 0 && v.Expires < time.Now().Unix()*1000 {
+				sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: expires property should be greater than current time\"}")
 				v.Expires = 0
 			}
 
 			setCache(v.Key, v.Value, v.Expires)
-		} else if v.Method == "DELETE" {
+		} else if v.Op == "DELETE" {
 			deleteCache(v.Key)
-		} else if v.Method == "GET" {
+		} else if v.Op == "GET" {
 			val := getCache(v.Key)
 
 			if len(val) == 0 {
@@ -94,8 +94,8 @@ func reader(conn *websocket.Conn) {
 				val = `"` + val + `"`
 			}
 
-			sendMessage(conn, messageType, "{\"type\": \"response\", \"key\": \""+v.Key+"\", \"value\":"+val+"}")
-		} else if v.Method == "CLEAR" {
+			sendMessage(conn, messageType, "{\"op\": \"RESPONSE\", \"key\": \""+v.Key+"\", \"value\":"+val+"}")
+		} else if v.Op == "CLEAR" {
 			clearCache()
 		}
 	}

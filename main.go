@@ -1,28 +1,22 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"log"
 	"net/http"
-	"time"
 )
 
 func main() {
 	http.HandleFunc("/", wsEndpoint)
 
-	ticker := time.NewTicker(10 * time.Second)
-	quit := make(chan struct{})
-	go func() {
-		for {
-			select {
-			case <-ticker.C:
-				go cleanCache()
-			case <-quit:
-				ticker.Stop()
-				return
-			}
-		}
-	}()
+	var port = 7000
 
-	log.Println("Starting web server on port 7000")
-	log.Fatal(http.ListenAndServe(":7000", nil))
+	flag.IntVar(&port, "p", 7000, "the port to run the web server on")
+	flag.Parse()
+
+	var portstring = fmt.Sprintf(":%d", port)
+
+	log.Printf("Starting web server on port %d\n", port)
+	log.Fatal(http.ListenAndServe(portstring, nil))
 }
