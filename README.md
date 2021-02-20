@@ -1,5 +1,7 @@
 # cache-server
 
+[![Docker](https://github.com/benny-discord/cache-server/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/benny-discord/cache-server/actions/workflows/docker-publish.yml)
+
 A lightweight cross-process in-memory cache written in go.
 
 ## Running the Server
