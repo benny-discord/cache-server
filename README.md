@@ -52,9 +52,9 @@ When you receive a warning, you should review your code to find where it came fr
 available below.
 
 - {"op": "WARN", "message": "Warning: valid op property must be present in payload"}
-- {"op": "WARN", "message": "Warning: expires property should not be present when op is `GET|CLEAR|DELETE`"}
-- {"op": "WARN", "message": "Warning: value property should not be present when op is `GET|CLEAR|DELETE`"}
-- {"op": "WARN", "message": "Warning: key property must be present when op is `GET|DELETE|SET`"}
+- {"op": "WARN", "message": "Warning: expires property should not be present when op is `CLEAR|DELETE|GET`"}
+- {"op": "WARN", "message": "Warning: value property should not be present when op is `CLEAR|DELETE|GET`"}
+- {"op": "WARN", "message": "Warning: key property must be present when op is `DELETE|GET|SET`"}
 - {"op": "WARN", "message": "Warning: expires property should be greater than current time"}
 
 When receiving an error, the connection to the server will be terminated, the client must fix the payload and reconnect.
@@ -62,7 +62,7 @@ Errors are only received when sending malformed JSON payloads. Here is the struc
 ```json5
 {
   "key": "string", //Required on DELETE, GET, SET. Must be a string
-  "value": "string", //Required ON SET. Must be a string.
+  "value": "string", //Required on SET. Must be a string.
   "op": "string", //Must be one of CLEAR|DELETE|GET|SET. Must be a string.
   "expires": "integer" //Unix timestamp, example: 1613821456922. Must be an integer
 }
