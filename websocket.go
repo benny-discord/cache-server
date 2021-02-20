@@ -52,12 +52,13 @@ func reader(conn *websocket.Conn) {
 		if err := json.Unmarshal(p, &v); err != nil {
 			log.Printf("[ERROR: Decode JSON] - %q", err)
 			log.Println("[SOCKET] - Server disconnected client")
+			sendMessage(conn, messageType, fmt.Sprintf("{\"op\": \"ERROR\", \"message\": \"%s\"}", err))
 			_ = conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(1003, "Invalid JSON Received"))
 			break
 		}
 
 		if len(v.Op) == 0 || !isValidOp(v.Op) {
-			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: valid op property must be present in JSON payloads\"}")
+			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: valid op property must be present in payload\"}")
 		}
 
 		if v.Op != "SET" && v.Expires != 0 {
@@ -69,7 +70,7 @@ func reader(conn *websocket.Conn) {
 			v.Value = ""
 		}
 		if v.Op != "CLEAR" && len(v.Key) == 0 {
-			sendMessage(conn, messageType, "{\"op\": \"ERROR\", \"message\": \"Warning: key property must be present when op is "+v.Op+"\"}")
+			sendMessage(conn, messageType, "{\"op\": \"WARN\", \"message\": \"Warning: key property must be present when op is "+v.Op+"\"}")
 			continue
 		}
 
