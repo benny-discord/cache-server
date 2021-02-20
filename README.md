@@ -6,10 +6,11 @@ A lightweight cross-process in-memory cache written in go.
 
 ### With Docker
 
-Premade Docker builds: https://hub.docker.com/repository/docker/alex31r/cache/builds
+Premade Docker builds: https://github.com/benny-discord/cache-server/packages/631531
 
 ```shell
-$ docker run --name YOUR_CONTAINER_NAME -p YOUR_DESIRED_PORT:7000 alex31r/cache:latest 
+$ docker login docker.pkg.github.com #login with your github credentials here
+$ docker run --name YOUR_CONTAINER_NAME -p YOUR_DESIRED_PORT:7000 docker.pkg.github.com/benny-discord/cache-server/cache:latest
 ```
 
 ### Without Docker
