@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
@@ -19,7 +20,8 @@ func wsEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Println(err)
+		_, _ = fmt.Fprintf(w, fmt.Sprintf("%s", err))
+		return
 	}
 
 	log.Println("[SOCKET] - Client Connected")
