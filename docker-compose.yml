@@ -6,4 +6,3 @@ services:
     ports:
       - "7000:7000"
     restart: unless-stopped
-    container_name: cache
