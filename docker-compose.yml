@@ -2,6 +2,7 @@ version: "3.9"
 services:
   cache:
     build: .
+    container_name: cache
     ports:
       - "7000:7000"
     restart: unless-stopped
